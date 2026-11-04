@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1220">
+<title>GOLDCeylon SL INVEST 6.0</title>
+<style>
+:root{--bg:#0b1220;--panel:#121d2e;--panel2:#18263a;--line:#29384d;--text:#edf3fb;--muted:#9aabc0;--green:#36c98f;--gold:#e7bd62;--red:#ef7272;--blue:#73b8ff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{padding:22px max(18px,calc((100% - 1120px)/2));background:linear-gradient(120deg,#14263b,#101827);border-bottom:1px solid var(--line)}
+.brand{font-weight:800;letter-spacing:1.5px;color:var(--gold);font-size:13px}.head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}h1{margin:7px 0 3px;font-size:clamp(24px,4vw,36px)}.sub{color:var(--muted);font-size:13px}.status{border:1px solid #805f25;color:#f3d48d;background:#352a16;border-radius:20px;padding:6px 11px;font-size:11px}
+main{max-width:1120px;margin:auto;padding:18px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.card{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:15px;min-width:0}.metric small,.muted{color:var(--muted)}.metric strong{display:block;font-size:25px;margin-top:7px}.green{color:var(--green)}.gold{color:var(--gold)}.red{color:var(--red)}
+section{margin-top:17px}h2{font-size:18px;margin:0 0 12px}.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+button,select,input{background:#0e1928;color:var(--text);border:1px solid var(--line);border-radius:9px;padding:9px 11px;font:inherit}button{cursor:pointer}button.primary{background:#1d674d;border-color:#258c67}button:hover{filter:brightness(1.15)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:11px 8px;border-bottom:1px solid var(--line)}th{color:var(--muted);font-weight:600}td:last-child,th:last-child{text-align:right}
+.pill{padding:4px 8px;border-radius:20px;font-size:11px;background:#20364b;color:#b9d9f8}.buy{background:#123c30;color:#7ce0b4}.hold{background:#453719;color:#f0d18a}.avoid{background:#48252a;color:#ffaaaa}
+.bar{height:8px;background:#26364b;border-radius:10px;overflow:hidden}.bar span{display:block;height:100%;background:linear-gradient(90deg,#238a68,#65d5a6);border-radius:10px}
+.two{display:grid;grid-template-columns:1.15fr .85fr;gap:12px}.fields{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.field label{display:block;color:var(--muted);font-size:12px;margin-bottom:5px}.field input{width:100%}
+.asset-tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}.asset-tabs button.active{border-color:var(--gold);color:var(--gold)}
+.allocation-row{display:grid;grid-template-columns:105px 1fr 48px;gap:8px;align-items:center;margin:12px 0;font-size:13px}
+.note{color:var(--muted);font-size:12px;line-height:1.5}.warning{border:1px solid #735b2b;background:#2c2518;border-radius:12px;padding:12px;color:#f1d99e;font-size:12px;line-height:1.5}
+footer{max-width:1120px;margin:auto;padding:10px 18px 30px;color:var(--muted);font-size:11px}
+@media(max-width:760px){.grid{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}main{padding:13px}.card{padding:13px}.fields{grid-template-columns:1fr}table{font-size:12px}th,td{padding:9px 5px}}
+</style>
+</head>
+<body>
+<header><div class="head"><div><div class="brand">GOLDCeylon · INVESTMENT INTELLIGENCE</div><h1>SL INVEST 6.0</h1><div class="sub">Sri Lanka multi-asset decision system · Moderate risk · 1–5 years</div></div><div class="status" id="feedStatus">DEMO DATA · LIVE FEED NOT CONNECTED</div></div></header>
+<main>
+<div class="grid">
+ <div class="card metric"><small>Top-ranked opportunity</small><strong id="topAsset">Treasury</strong><span class="muted" id="topSignal">Illustrative ranking</span></div>
+ <div class="card metric"><small>Opportunity score</small><strong id="topScore">—</strong><span class="muted">Out of 100</span></div>
+ <div class="card metric"><small>Investment capital</small><strong id="capitalMetric">LKR 1.0M</strong><span class="muted">Editable below</span></div>
+ <div class="card metric"><small>Model risk profile</small><strong>Moderate</strong><span class="muted">1–5 year horizon</span></div>
+</div>
+
+<section class="two">
+ <div class="card">
+  <div class="section-head"><h2>Asset ranking</h2><span class="pill">Six asset classes</span></div>
+  <table><thead><tr><th>Asset</th><th>Score</th><th>Signal</th></tr></thead><tbody id="ranking"></tbody></table>
+  <p class="note">Scores are illustrative until validated live data and calibrated forecasts are connected. The ranking is not a trade instruction.</p>
+ </div>
+ <div class="card">
+  <h2>Portfolio settings</h2>
+  <div class="fields">
+   <div class="field"><label>Investable capital (LKR)</label><input id="capital" type="number" min="0" step="1000" value="1000000"></div>
+   <div class="field"><label>Monthly contribution (LKR)</label><input id="monthly" type="number" min="0" step="1000" value="40000"></div>
+   <div class="field"><label>Investment horizon</label><select id="horizon"><option>1–5 years</option></select></div>
+   <div class="field"><label>Risk profile</label><select id="risk"><option>Moderate</option></select></div>
+  </div>
+  <p class="note">Emergency reserve is excluded. Do not enter money needed for near-term expenses or debt repayment.</p>
+  <button class="primary" id="recalc">Recalculate model</button>
+ </div>
+</section>
+
+<section class="card">
+ <div class="section-head"><h2>Allocation recommendation</h2><span class="pill">Constrained illustrative weights</span></div>
+ <div id="allocation"></div>
+ <div class="warning" style="margin-top:14px">Allocation is a planning illustration, not an executable order. Production optimisation must include asset correlations, expected shortfall, tax, transaction costs, minimum ticket sizes, credit eligibility and concentration limits. Debentures are not deposit-insured.</div>
+</section>
+
+<section class="two">
+ <div class="card">
+  <h2>Scoring engine – editable inputs</h2>
+  <p class="note">Adjust factor scores from 0–100 to test the model. These are demonstration inputs, not current market measurements.</p>
+  <div class="asset-tabs" id="tabs"></div>
+  <div id="sliders"></div>
+  <p class="note">Weights: Return 30% · Risk 25% · Momentum 15% · Liquidity 10% · Macro 10% · Valuation 10%.</p>
+ </div>
+ <div class="card">
+  <h2>Model controls & safeguards</h2>
+  <div class="field"><label>Minimum score improvement to switch</label><input id="switchGap" type="number" value="8" min="0" max="30"></div>
+  <div class="field" style="margin-top:10px"><label>Data freshness requirement (hours)</label><input id="freshness" type="number" value="24" min="1" max="168"></div>
+  <p class="note">Hard stops: stale or unverifiable data; failed issuer/credit checks; inadequate liquidity; unsuitable product; concentration breach; missing official offer documents.</p>
+  <button id="reset">Reset demonstration inputs</button>
+ </div>
+</section>
+
+<section class="card">
+ <h2>Live data integration status</h2>
+ <table><thead><tr><th>Feed</th><th>Preferred source</th><th>Status</th></tr></thead><tbody>
+ <tr><td>FX, inflation, reserves, policy rates</td><td>CBSL</td><td><span class="pill">Adapter required</span></td></tr>
+ <tr><td>ASPI, SL20, equities</td><td>CSE / licensed vendor</td><td><span class="pill">Adapter required</span></td></tr>
+ <tr><td>Treasury yields</td><td>Public Debt Department / CBSL</td><td><span class="pill">Adapter required</span></td></tr>
+ <tr><td>FD rates and terms</td><td>Licensed institutions</td><td><span class="pill">Adapter required</span></td></tr>
+ <tr><td>Debenture prices and ratings</td><td>CSE / rating agencies</td><td><span class="pill">Adapter required</span></td></tr>
+ <tr><td>Gold, oil, global rates</td><td>Licensed market data vendors</td><td><span class="pill">Adapter required</span></td></tr>
+ </tbody></table>
+ <p class="note">Never place API secrets in this browser file. A production backend should fetch, validate, timestamp and store data, then expose authenticated read-only endpoints to the dashboard.</p>
+</section>
+</main>
+<footer>GOLDCeylon SL INVEST 6.0 · Prototype build · Not financial advice. This offline dashboard does not fetch live prices, connect to brokerage accounts or place trades.</footer>
+<script>
+const factors=[["Return",.30],["Risk",.25],["Momentum",.15],["Liquidity",.10],["Macro",.10],["Valuation",.10]];
+const seed=[
+{name:"Gold",v:[65,65,60,65,70,55],cap:20},
+{name:"USD",v:[50,75,55,90,65,60],cap:15},
+{name:"FD",v:[75,85,65,80,70,70],cap:35},
+{name:"Treasury",v:[72,80,65,75,75,75],cap:40},
+{name:"Debentures",v:[85,45,65,45,60,60],cap:10},
+{name:"Stocks",v:[80,50,75,85,70,75],cap:30}
+];
+let assets=JSON.parse(JSON.stringify(seed)), selected=0;
+const $=id=>document.getElementById(id);
+function score(a){return a.v.reduce((s,x,i)=>s+x*factors[i][1]*100,0)}
+function signal(s){return s>=80?"STRONG BUY":s>=70?"BUY":s>=55?"HOLD":s>=40?"REDUCE":"AVOID"}
+function render(){
+ const ranked=[...assets].map(a=>({...a,score:score(a)})).sort((a,b)=>b.score-a.score);
+ const best=ranked[0];$("topAsset").textContent=best.name;$("topScore").textContent=best.score.toFixed(1);
+ $("topSignal").textContent=signal(best.score);$("capitalMetric").textContent="LKR "+(Number($("capital").value)||0).toLocaleString("en-US",{notation:"compact",maximumFractionDigits:2});
+ $("ranking").innerHTML=ranked.map(a=>`<tr><td>${a.name}</td><td>${a.score.toFixed(1)}</td><td><span class="pill ${a.score>=70?"buy":a.score<40?"avoid":"hold"}">${signal(a.score)}</span></td></tr>`).join("");
+ $("tabs").innerHTML=assets.map((a,i)=>`<button class="${i===selected?"active":""}" data-i="${i}">${a.name}</button>`).join("");
+ $("tabs").querySelectorAll("button").forEach(b=>b.onclick=()=>{selected=+b.dataset.i;renderSliders();renderTabs()});
+ renderSliders();renderTabs();renderAllocation(ranked);
+}
+function renderTabs(){ $("tabs").querySelectorAll("button").forEach((b,i)=>b.classList.toggle("active",i===selected));}
+function renderSliders(){
+ $("sliders").innerHTML=factors.map((f,i)=>`<div class="field" style="margin:13px 0"><label>${f[0]} · ${(f[1]*100).toFixed(0)}% weighting: <b id="val${i}">${assets[selected].v[i]}</b></label><input type="range" min="0" max="100" value="${assets[selected].v[i]}" data-factor="${i}" style="width:100%"></div>`).join("");
+ $("sliders").querySelectorAll("input").forEach(el=>el.oninput=()=>{let i=+el.dataset.factor;assets[selected].v[i]=+el.value;$("val"+i).textContent=el.value;renderSummaryAndAllocation()});
+}
+function renderSummaryAndAllocation(){const ranked=[...assets].map(a=>({...a,score:score(a)})).sort((a,b)=>b.score-a.score);$("topAsset").textContent=ranked[0].name;$("topScore").textContent=ranked[0].score.toFixed(1);$("topSignal").textContent=signal(ranked[0].score);$("ranking").innerHTML=ranked.map(a=>`<tr><td>${a.name}</td><td>${a.score.toFixed(1)}</td><td><span class="pill ${a.score>=70?"buy":a.score<40?"avoid":"hold"}">${signal(a.score)}</span></td></tr>`).join("");renderAllocation(ranked)}
+function renderAllocation(ranked){
+ // Constrained score-weighted illustration; caps applied, then leftover redistributed iteratively.
+ let weights=ranked.map(a=>({name:a.name,score:Math.max(1,a.score),cap:a.cap,w:0}));
+ let remaining=1, active=weights.slice();
+ for(let n=0;n<weights.length+1&&remaining>0.0001&&active.length;n++){
+  let total=active.reduce((s,a)=>s+a.score,0);let capped=[];
+  active.forEach(a=>{let proposal=remaining*a.score/total;let room=a.cap/100-a.w;if(proposal>=room){a.w+=Math.max(0,room);remaining-=Math.max(0,room);capped.push(a)}});
+  if(!capped.length){active.forEach(a=>a.w+=remaining*a.score/total);remaining=0}
+  else active=active.filter(a=>!capped.includes(a));
+ }
+ let total=weights.reduce((s,a)=>s+a.w,0);
+ $("allocation").innerHTML=weights.map(a=>{let pct=total?a.w/total*100:0;let amount=(Number($("capital").value)||0)*pct/100;return `<div class="allocation-row"><span>${a.name}</span><div class="bar"><span style="width:${pct}%"></span></div><b>${pct.toFixed(1)}%</b><span></span><span class="muted" style="grid-column:2/4">LKR ${amount.toLocaleString("en-US",{maximumFractionDigits:0})}</span></div>`}).join("");
+}
+$("recalc").onclick=render;$("capital").oninput=render;$("reset").onclick=()=>{assets=JSON.parse(JSON.stringify(seed));selected=0;render()};render();
+</script>
+</body></html>
